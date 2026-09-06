@@ -565,6 +565,7 @@ export interface AutoCaptionSettings {
 	/** Show the hover ghost on the timeline caption track for click-to-add. */
 	timelineQuickAdd: boolean;
 	language: string;
+	translateToEnglish?: boolean;
 	fontFamily: string;
 	fontSize: number;
 	bottomOffset: number;
@@ -581,6 +582,7 @@ export const DEFAULT_AUTO_CAPTION_SETTINGS: AutoCaptionSettings = {
 	enabled: false,
 	timelineQuickAdd: true,
 	language: "auto",
+	translateToEnglish: false,
 	fontFamily: getDefaultCaptionFontFamily(),
 	fontSize: 30,
 	bottomOffset: 3,

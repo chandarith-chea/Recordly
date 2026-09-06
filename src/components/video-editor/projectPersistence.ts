@@ -777,6 +777,7 @@ export function normalizeProjectEditor(editor: Partial<ProjectEditorState>): Pro
 			typeof rawAutoCaptionSettings.timelineQuickAdd === "boolean"
 				? rawAutoCaptionSettings.timelineQuickAdd
 				: DEFAULT_AUTO_CAPTION_SETTINGS.timelineQuickAdd,
+		translateToEnglish: rawAutoCaptionSettings.translateToEnglish === true,
 		language:
 			typeof rawAutoCaptionSettings.language === "string" &&
 			rawAutoCaptionSettings.language.trim()

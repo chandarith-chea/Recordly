@@ -8,6 +8,8 @@ describe("endsSentence", () => {
 		expect(endsSentence("you?")).toBe(true);
 		expect(endsSentence("stop!")).toBe(true);
 		expect(endsSentence("wait…")).toBe(true);
+		expect(endsSentence("សួស្តី។")).toBe(true);
+		expect(endsSentence("សួស្តី៕")).toBe(true);
 		expect(endsSentence('said."')).toBe(true);
 		expect(endsSentence("done,")).toBe(false);
 		expect(endsSentence("hello")).toBe(false);
@@ -29,6 +31,23 @@ describe("endsSentence", () => {
 });
 
 describe("segmentCuesIntoPhrases", () => {
+	it("splits Khmer sentences in timed JSON and SRT captions", () => {
+		const cue = {
+			id: "caption-1",
+			startMs: 0,
+			endMs: 4000,
+			text: "សួស្តី។ អរគុណ៕",
+		};
+		const words = [
+			{ text: "សួស្តី។", startMs: 0, endMs: 2000 },
+			{ text: "អរគុណ៕", startMs: 2000, endMs: 4000, leadingSpace: true },
+		];
+		for (const input of [cue, { ...cue, words }]) {
+			const result = segmentCuesIntoPhrases([input], []);
+			expect(result.map((item) => item.text)).toEqual(["សួស្តី។", "អរគុណ៕"]);
+		}
+	});
+
 	it("splits back-to-back sentences with no pause into separate captions", () => {
 		const cues: CaptionCuePayload[] = [
 			{

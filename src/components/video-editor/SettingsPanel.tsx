@@ -697,6 +697,7 @@ const BUILTIN_CURSOR_STYLE_OPTIONS: CursorStyleOption[] = [
 const CAPTION_LANGUAGE_OPTIONS = [
 	{ value: "auto", label: "Auto Detect" },
 	{ value: "en", label: "English" },
+	{ value: "km", label: "Khmer (ភាសាខ្មែរ)" },
 	{ value: "es", label: "Spanish" },
 	{ value: "fr", label: "French" },
 	{ value: "de", label: "German" },
@@ -2331,6 +2332,21 @@ export function SettingsPanel({
 							))}
 						</SelectContent>
 					</Select>
+				</div>
+				<div className="flex items-center justify-between gap-3">
+					<label
+						htmlFor="caption-translate"
+						className="text-sm font-medium text-foreground"
+					>
+						{tSettings("captions.translateToEnglish", "Translate to English")}
+					</label>
+					<Switch
+						id="caption-translate"
+						checked={autoCaptionSettings.translateToEnglish === true}
+						onCheckedChange={(checked) =>
+							updateAutoCaptionSettings({ translateToEnglish: checked })
+						}
+					/>
 				</div>
 				<div className="flex flex-wrap items-center gap-2">
 					<div className="grid w-full grid-cols-2 gap-2">

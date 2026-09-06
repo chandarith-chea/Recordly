@@ -114,3 +114,12 @@ describe("normalizeProjectEditor", () => {
 		expect(editor.webcam.roundness).toBeCloseTo(4.34, 1);
 	});
 });
+
+it("persists English caption translation and defaults older projects to transcription", () => {
+	expect(
+		normalizeProjectEditor({
+			autoCaptionSettings: { language: "km", translateToEnglish: true },
+		}).autoCaptionSettings,
+	).toMatchObject({ language: "km", translateToEnglish: true });
+	expect(normalizeProjectEditor({}).autoCaptionSettings.translateToEnglish).toBe(false);
+});

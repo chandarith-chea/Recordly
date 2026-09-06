@@ -223,6 +223,17 @@ Target-specific build commands are also available:
 - `npm run build:win`
 - `npm run build:linux`
 
+For macOS CI builds, open **Actions → Build Electron App → Run workflow** and
+select **macos**. Download the Intel (`macos-x64-release`) or Apple Silicon
+(`macos-arm64-release`) artifact from the completed run. These builds are unsigned;
+use the macOS Release Candidate workflow for signed, notarized distribution.
+
+For Khmer captions, select **Khmer (ភាសាខ្មែរ)** as the speaker language in Captions
+and download the multilingual small model (or select another multilingual model).
+Enable **Translate to English** before generating to produce English captions from
+the speaker's audio; leave it off to keep the original language. Auto Detect also
+works with translation. Generating again replaces the current captions.
+
 ---
 
 ## macOS: "App cannot be opened"

@@ -69,7 +69,7 @@ interface CaptionPiece {
 	words: CaptionWordPayload[];
 }
 
-const SENTENCE_END = /[.?!…。！？]$/;
+const SENTENCE_END = /[.?!…。！？។៕]$/;
 /** Closing quotes/brackets that can trail terminal punctuation, e.g. `said."` */
 const TRAILING_CLOSERS = /[)\]}"'”’»」』）】］｝>]+$/u;
 

@@ -3,6 +3,16 @@ name: Build Electron App
 
 on:
   workflow_dispatch:
+    inputs:
+      platform:
+        description: Platform to build
+        type: choice
+        default: all
+        options:
+          - all
+          - macos
+          - windows
+          - linux
 
 permissions:
   contents: read
@@ -12,6 +22,7 @@ permissions:
 
 jobs:
   build-windows:
+    if: inputs.platform == 'all' || inputs.platform == 'windows'
     runs-on: windows-latest
     steps:
       - name: Checkout code
@@ -70,6 +81,7 @@ jobs:
           retention-days: 30
 
   build-macos:
+    if: inputs.platform == 'all' || inputs.platform == 'macos'
     runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
@@ -109,11 +121,9 @@ jobs:
         run: npx electron-builder install-app-deps
 
       - name: Build macOS app
-        run: |
-          npm run build:platform-native-helpers
-          npx tsc
-          npx vite build
-          npx electron-builder --mac dir dmg zip --${{ matrix.arch }} --publish never
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+        run: npm run build:mac -- --${{ matrix.arch }} --publish never
 
       - name: Smoke test packaged macOS paths
         env:
@@ -142,6 +152,7 @@ jobs:
           retention-days: 30
 
   build-linux:
+    if: inputs.platform == 'all' || inputs.platform == 'linux'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

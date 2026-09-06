@@ -10,6 +10,7 @@ import { resolveRecordingSession } from "../project/session";
 import { getUsableCompanionAudioCandidates } from "../recording/diagnostics";
 import { normalizeVideoSourcePath } from "../utils";
 import { getCaptionCompanionAudioCandidates } from "./audioCandidates";
+import { buildWhisperLanguageArgs } from "./language";
 import { parseSrtCues, parseWhisperJsonCues, shouldRetryWhisperWithoutJson } from "./parser";
 import { isMissingWindowsWhisperRuntimeDependency } from "./runtimeErrors";
 import { segmentCuesIntoPhrases } from "./segment";
@@ -215,6 +216,7 @@ export async function generateAutoCaptionsFromVideo(options: {
 	whisperExecutablePath?: string;
 	whisperModelPath: string;
 	language?: string;
+	translateToEnglish?: boolean;
 }) {
 	const ffmpegPath = getFfmpegBinaryPath();
 	const normalizedVideoPath = normalizeVideoSourcePath(options.videoPath);
@@ -243,8 +245,6 @@ export async function generateAutoCaptionsFromVideo(options: {
 			wavPath,
 		});
 
-		const language =
-			options.language && options.language.trim() ? options.language.trim() : "auto";
 		const whisperBaseArgs = [
 			"-m",
 			whisperModelPath,
@@ -253,8 +253,7 @@ export async function generateAutoCaptionsFromVideo(options: {
 			"-osrt",
 			"-of",
 			outputBase,
-			"-l",
-			language,
+			...buildWhisperLanguageArgs(options),
 			"-np",
 		];
 
